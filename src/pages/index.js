@@ -4,7 +4,8 @@ import { request } from "../../lib/datocms"
 import { Image } from 'react-datocms'
 import { Header } from "@/components/header/header"
 
-const HOMEPAGE_QUERY = `{
+const HOMEPAGE_QUERY = `
+query AllPages {
   startpage {
     title
     content {
@@ -12,45 +13,23 @@ const HOMEPAGE_QUERY = `{
       value
     }
     mainImage {
-      alt(fallbackLocales: en, locale: en)
-      blurhash
-      responsiveImage(fallbackLocales: en, locale: en, sizes: "") {
-        alt
-        aspectRatio
-        base64
-        height
-        sizes
-        src
+      responsiveImage(fallbackLocales: en, imgixParams: {maxH: "1920", fit: crop}) {
+        width
+        webpSrcSet
         title
         srcSet
-        webpSrcSet
-        width
+        src
+        sizes
+        height
         bgColor
+        base64
+        aspectRatio
+        alt
       }
-      filename
-      _createdAt
-      _updatedAt
-      author
-      basename
-      copyright
-      customData
-      exifInfo
-      format
-      height
-      id
-      md5
-      mimeType
-      notes
-      size
-      smartTags
-      thumbhash
-      tags
-      title(fallbackLocales: en, locale: en)
-      url
-      width
     }
   }
-}`;
+}
+  `;
 export async function getStaticProps() {
   const data = await request({
     query: HOMEPAGE_QUERY,
@@ -64,19 +43,14 @@ export default function Home(props) {
   const { data } = props
   return (
     <div>
-      <Image data={data.startpage.mainImage.responsiveImage}></Image>
-      <h1 class="absolute text-5xl text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">{data.startpage.title}</h1>
+      <div className="relative">
+        <Image data={data.startpage.mainImage.responsiveImage}
+        ></Image>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <h1 class="text-3xl text-black text-center md:text-4xl lg:text-6xl xl:text-8xl">{data.startpage.title}</h1>
+          <Link href={`/products`} className="absolute text-center inset-x-80 bottom--20 bg-black mt-20 py-6 px-8 animate-bounce" >See our stock</Link>
+        </div>
+      </div>
     </div>
    )
-}
-
-const ProductPage = (props) => {
-  const { data } = props
-  return (
-    <div>
-      <Link href={`/products/${data.name}`}><h2>{data.title}</h2></Link>
-      <p>{data.publishDate}</p>
-      <p>{data.author}</p>
-    </div>
-  )
 }
