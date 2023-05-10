@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
+import { AiOutlineShoppingCart } from 'react-icons/ai'
 
 export const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="flex items-center justify-between flex-wrap">
+    <nav className="flex items-center justify-between flex-wrap w-5/6 m-auto lg:w-full">
         {/* logo */}
         <Link href={`/`} className='hover:text-green-500'>
         <div className="flex items-center flex-shrink-0 text-white mr-6">
@@ -35,15 +36,16 @@ export const Navbar = () => {
         </div>
         {/* Links */}
         <div
-        className={`w-full ml-5 block flex-grow lg:flex lg:items-center lg:w-auto ${isOpen ? "block" : "hidden"}`}
+        className={`w-full block lg:gap-10 lg:flex-grow lg:flex lg:items-center lg:w-auto ${isOpen ? "block" : "hidden"}`}
         >
-            <div className="text-sm lg:flex-grow gap-10 flex">
-                <Link href={`/products`} className="block mt-6 lg:inline-block lg:mt-0 text-white-200 text-lg hover:text-green-400" onClick={() => setIsOpen(!isOpen)}>All products</Link>
-                <Link href={`/about-us`} className="block mt-6 lg:inline-block lg:mt-0 text-white-200 text-lg hover:text-green-400" onClick={() => setIsOpen(!isOpen)}>About us</Link>
-                <Link href={`/contact`} className="block mt-6 lg:inline-block lg:mt-0 text-white-200 text-lg hover:text-green-400" onClick={() => setIsOpen(!isOpen)}>Contact us</Link>
-            </div>
-            <button className='mt-6 md:mt-0'>CART</button>
+                <Link href={`/products`} className="block mt-6 lg:inline-block lg:mt-0 text-white-200 text-lg hover:text-yellow-400" onClick={() => setIsOpen(!isOpen)}>All products</Link>
+                <Link href={`/about-us`} className="block mt-6 lg:inline-block lg:mt-0 text-white-200 text-lg hover:text-yellow-400" onClick={() => setIsOpen(!isOpen)}>About us</Link>
+                <Link href={`/contact`} className="block mt-6 lg:inline-block lg:mt-0 text-white-200 text-lg hover:text-yellow-400" onClick={() => setIsOpen(!isOpen)}>Contact us</Link>
+
         </div>
+        <Link href={`/cart`} className={`block mt-6 lg:mt-0 lg:block ${isOpen ? "block" : "hidden"}`}>
+            <AiOutlineShoppingCart size={30} className='hover:text-yellow-400'></AiOutlineShoppingCart>
+        </Link>
   </nav>
   )
 }

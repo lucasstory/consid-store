@@ -1,6 +1,11 @@
 import Link from "next/link"
 import { request } from "../../../lib/datocms"
 import { Image } from "react-datocms/image"
+import { Counter } from "@/features/counter/Counter"
+import { useDispatch } from "react-redux"
+import { addToCart } from "@/features/cart/cartSlice"
+import { StructuredText } from "react-datocms/structured-text"
+import { useState } from "react"
 
 const PATHS_QUERY = `
 query allProducts {
@@ -26,18 +31,40 @@ export const getStaticPaths = async () => {
 export default function ProductPage(props) {
     const { productData } = props
     const { description } = productData
+
+    let images  = []
+    images.push(productData.mainImage.responsiveImage)
+
+    const dispatch = useDispatch()
+    const handleAddToCart = (productData) => {
+        dispatch(addToCart(productData))
+    }
+
+    const [ showImage, setShowImage ] = useState(0)
+
     return (
       <div className="container flex flex-col m-auto">
         <div className="flex flex-col w-5/6 m-auto xl:flex-row xl:gap-40 xl:w-full">
           <div className="w-full xl:5/6">
-            <Image data={productData.mainImage.responsiveImage}></Image>
+            <Image data={productData.mainImage.responsiveImage} className="cursor-pointer"></Image>
           </div>
-          <div className="flex flex-col lg:w-3/5">
+          <div className="w-full xl:5/6 flex flex-row gap-6 mt-6 cursor-pointer">
+            {productData.alternativeImages.map((img, i) => {
+              {images.push(img.responsiveImage)}
+              return (
+                <div className="w-96">
+                  <Image data={img.responsiveImage} onClick={() => setShowImage(i)}></Image>
+                </div>
+              )
+            })}
+          </div>
+          <div className="flex flex-col lg:w-5/6">
             <h1 className="text-6xl font-bold mt-8">{productData.name}</h1>
             <h2 className="text-4xl my-8">{productData.price + "kr"}</h2>
+            <StructuredText data={description.content}></StructuredText>
             {description.value.document.children.map((element, key) => {
               if (element.type === 'paragraph') {
-                return <span key={key}>{element.children[0].value}</span>
+                return <span key={key} className="w-full">{element.children[0].value}</span>
               }
               else if (element.type === 'list') {
                 return (
@@ -49,9 +76,9 @@ export default function ProductPage(props) {
                 )
               }
             })}
-            <div className="flex flex-row align-middle mt-10 gap-6">
-              <div className="bg-color-slate-40">Slider</div>
-              <button className="bg-gray-800 px-6 py-4 rounded-lg text-lg w-full hover:bg-slate-600">Add to cart</button>
+            <div className="flex flex-row align-middle mt-10 gap-6 ">
+              <Counter></Counter>
+              <button className="bg-gray-800 px-6 py-4 rounded-lg text-lg w-72 hover:bg-slate-600" onClick={() => handleAddToCart(productData)}>Add to cart</button>
             </div>
           </div>
         </div>
