@@ -34,6 +34,9 @@ export default function ProductPage(props) {
 
     let images  = []
     images.push(productData.mainImage.responsiveImage)
+    productData.alternativeImages.map((img) => {
+      {images.push(img.responsiveImage)}
+    })
 
     const dispatch = useDispatch()
     const handleAddToCart = (productData) => {
@@ -43,20 +46,23 @@ export default function ProductPage(props) {
     const [ showImage, setShowImage ] = useState(0)
 
     return (
-      <div className="container flex flex-col m-auto">
-        <div className="flex flex-col w-5/6 m-auto xl:flex-row xl:gap-40 xl:w-full">
-          <div className="w-full xl:5/6">
-            <Image data={productData.mainImage.responsiveImage} className="cursor-pointer"></Image>
+      <div className="container flex flex-col m-auto w-5/6">
+        <div className="all-images-container">
+          <div className="image-container">
+            {<Image data={images && images[showImage]}></Image>}
           </div>
-          <div className="w-full xl:5/6 flex flex-row gap-6 mt-6 cursor-pointer">
-            {productData.alternativeImages.map((img, i) => {
-              {images.push(img.responsiveImage)}
+          <div className="small-images-container lg:w-[800px]">
+            {images?.map((item, i) => {
               return (
-                <div className="w-96">
-                  <Image data={img.responsiveImage} onClick={() => setShowImage(i)}></Image>
-                </div>
+              <div 
+              key={i}  
+              onClick={() => {setShowImage(i)}} 
+              className={i === showImage ? 
+                'small-image selected-image' : 'small-image'} >
+                <Image data={item}></Image>
+              </div>
               )
-            })}
+              })}
           </div>
           <div className="flex flex-col lg:w-5/6">
             <h1 className="text-6xl font-bold mt-8">{productData.name}</h1>
@@ -78,7 +84,7 @@ export default function ProductPage(props) {
             })}
             <div className="flex flex-row align-middle mt-10 gap-6 ">
               <Counter></Counter>
-              <button className="bg-gray-800 px-6 py-4 rounded-lg text-lg w-72 hover:bg-slate-600" onClick={() => handleAddToCart(productData)}>Add to cart</button>
+              <button className="bg-orange-400 px-6 py-4 rounded-lg text-lg w-72 text-gray-950 font-semibold hover:bg-orange-300" onClick={() => handleAddToCart(productData)}>Add to cart</button>
             </div>
           </div>
         </div>

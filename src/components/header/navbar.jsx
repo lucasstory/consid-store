@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
+import Image from 'next/image'
 
 export const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -8,11 +9,8 @@ export const Navbar = () => {
   return (
     <nav className="flex items-center justify-between flex-wrap w-5/6 m-auto lg:w-full">
         {/* logo */}
-        <Link href={`/`} className='hover:text-green-500'>
-        <div className="flex items-center flex-shrink-0 text-white mr-6">
-            <svg className="fill-current h-8 w-8 mr-2" width="54" height="54" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z"/></svg>
-            <span className="font-semibold text-xl tracking-tight">Tailwind CSS</span>
-        </div>
+        <Link href={`/`} className='mr-10'>
+            <Image src='/lucas-logo.png' width={150} height={100}></Image>
         </Link>
         {/* Burger */}
         <div className="block lg:hidden">
@@ -38,13 +36,13 @@ export const Navbar = () => {
         <div
         className={`w-full block lg:gap-10 lg:flex-grow lg:flex lg:items-center lg:w-auto ${isOpen ? "block" : "hidden"}`}
         >
-                <Link href={`/products`} className="block mt-6 lg:inline-block lg:mt-0 text-white-200 text-lg hover:text-yellow-400" onClick={() => setIsOpen(!isOpen)}>All products</Link>
-                <Link href={`/about-us`} className="block mt-6 lg:inline-block lg:mt-0 text-white-200 text-lg hover:text-yellow-400" onClick={() => setIsOpen(!isOpen)}>About us</Link>
-                <Link href={`/contact`} className="block mt-6 lg:inline-block lg:mt-0 text-white-200 text-lg hover:text-yellow-400" onClick={() => setIsOpen(!isOpen)}>Contact us</Link>
+                <Link href={`/products`} className="block mt-6 lg:inline-block lg:mt-0 text-white-200 text-lg hover:text-orange-400" onClick={() => setIsOpen(!isOpen)}>All products</Link>
+                <Link href={`/about-us`} className="block mt-6 lg:inline-block lg:mt-0 text-white-200 text-lg hover:text-orange-400" onClick={() => setIsOpen(!isOpen)}>About us</Link>
+                <Link href={`/contact`} className="block mt-6 lg:inline-block lg:mt-0 text-white-200 text-lg hover:text-orange-400" onClick={() => setIsOpen(!isOpen)}>Contact us</Link>
 
         </div>
         <Link href={`/cart`} className={`block mt-6 lg:mt-0 lg:block ${isOpen ? "block" : "hidden"}`}>
-            <AiOutlineShoppingCart size={30} className='hover:text-yellow-400'></AiOutlineShoppingCart>
+            <AiOutlineShoppingCart size={30} className='hover:text-orange-400'></AiOutlineShoppingCart>
         </Link>
   </nav>
   )
