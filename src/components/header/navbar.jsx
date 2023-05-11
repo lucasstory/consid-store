@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { AiOutlineShoppingCart } from 'react-icons/ai'
+import { AiOutlineShoppingCart, AiOutlineInfoCircle, AiOutlineInbox } from 'react-icons/ai'
+import { BiSupport } from 'react-icons/bi'
 import Image from 'next/image'
 
-export const Navbar = () => {
+export const Navbar = (props) => {
+    const { data } = props
     const [isOpen, setIsOpen] = useState(false);
 
   return (
     <nav className="flex items-center justify-between flex-wrap w-5/6 m-auto lg:w-full">
         {/* logo */}
-        <Link href={`/`} className='mr-10'>
+        <Link href={`/`} className='mr-20'>
             <Image src='/lucas-logo.png' width={150} height={100}></Image>
         </Link>
         {/* Burger */}
@@ -36,14 +38,54 @@ export const Navbar = () => {
         <div
         className={`w-full block lg:gap-10 lg:flex-grow lg:flex lg:items-center lg:w-auto ${isOpen ? "block" : "hidden"}`}
         >
-                <Link href={`/products`} className="block mt-6 lg:inline-block lg:mt-0 text-white-200 text-lg hover:text-orange-400" onClick={() => setIsOpen(!isOpen)}>All products</Link>
-                <Link href={`/about-us`} className="block mt-6 lg:inline-block lg:mt-0 text-white-200 text-lg hover:text-orange-400" onClick={() => setIsOpen(!isOpen)}>About us</Link>
-                <Link href={`/contact`} className="block mt-6 lg:inline-block lg:mt-0 text-white-200 text-lg hover:text-orange-400" onClick={() => setIsOpen(!isOpen)}>Contact us</Link>
+            <Link href={`/products`} className="flex flex-row items-center gap-2 mt-6 text-white-200 text-lg text-center lg:flex-col lg:gap-1 lg:mt-0 hover:text-orange-400" onClick={() => setIsOpen(!isOpen)}>
+                <AiOutlineInbox size={25}></AiOutlineInbox>
+                All products
+            </Link>
+            <Link href={`/about-us`} className="flex flex-row items-center gap-2 mt-6 text-white-200 text-lg text-center lg:flex-col lg:gap-1 lg:mt-0 hover:text-orange-400" onClick={() => setIsOpen(!isOpen)}>
+                <AiOutlineInfoCircle size={25}></AiOutlineInfoCircle>
+                About us
+            </Link>
+            <Link href={`/contact`} className="flex flex-row items-center gap-2 mt-6 text-white-200 text-lg text-center lg:flex-col lg:gap-1 lg:mt-0 hover:text-orange-400" onClick={() => setIsOpen(!isOpen)}>
+                <BiSupport size={25}></BiSupport>
+                Contact us
+            </Link>
 
         </div>
-        <Link href={`/cart`} className={`block mt-6 lg:mt-0 lg:block ${isOpen ? "block" : "hidden"}`}>
-            <AiOutlineShoppingCart size={30} className='hover:text-orange-400'></AiOutlineShoppingCart>
+        <Link href={`/cart`} className={`flex flex-row gap-2 mt-6 hover:text-orange-400 lg:mt-0 lg:block ${isOpen ? "block" : "hidden"}`}>
+            <AiOutlineShoppingCart size={30} className=''></AiOutlineShoppingCart>
+            Cart
         </Link>
   </nav>
   )
 }
+
+const PAGES_QUERY = `
+query AllPages {
+  allPages {
+    slug
+  }
+}
+`
+export async function getStaticProps({ params }) {
+  const data = await request({
+      query: PAGES_QUERY
+  })
+
+  return {
+    props: { data }
+  }
+}
+
+export const getStaticPaths = async () => {
+    const slugQuery = await request({
+        query: PAGES_QUERY
+    })
+  
+    let paths = []
+    slugQuery.allPages.map((p) => paths.push(`/${p.id}`))
+    return {
+        paths,
+        fallback: false
+    }
+  }
