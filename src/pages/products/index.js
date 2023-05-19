@@ -1,10 +1,12 @@
+"use client"
+
 import Link from "next/link"
 import { request } from "../../../lib/datocms"
 import { useGetAllProductsQuery } from "@/features/product/productApi"
 import { useSelector } from "react-redux"
 import { Image } from "react-datocms/image"
 import { useDispatch } from "react-redux"
-import { addToCart } from "@/features/cart/cartSlice"
+import { addSingleItemToCart } from "@/features/cart/cartSlice"
 import { AiOutlineShoppingCart } from 'react-icons/ai/'
 
 const PRODUCTS_QUERY = `
@@ -36,7 +38,7 @@ query AllProducts {
 const Products = (props) => {
     const dispatch = useDispatch()
     const handleAddToCart = (product) => {
-        dispatch(addToCart(product))
+        dispatch(addSingleItemToCart(product))
     }
     const { products } = props
     return (
@@ -49,7 +51,7 @@ const Products = (props) => {
                 <div className="grid items-center w-5/6 grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {products.allProducts?.map((product) => {
                         return (
-                            <div className="flex flex-col items-center justify-center w-full duration-200 ease-in-out bg-gray-300 cursor-pointer h-96 text-gray-950 hover:scale-105">
+                            <div key={product.id} className="flex flex-col items-center justify-center w-full duration-200 ease-in-out bg-gray-300 cursor-pointer h-96 text-gray-950 hover:scale-105">
                                 <Link href={`/products/${product.id}`}>
                                     <div className="h-48 px-3 pt-3 overflow-hidden">
                                         <Image data={product.mainImage.responsiveImage}></Image>

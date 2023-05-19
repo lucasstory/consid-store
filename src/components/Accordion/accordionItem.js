@@ -1,21 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Collapse } from 'react-collapse'
 import Link from 'next/link'
+import { IoIosArrowDown } from 'react-icons/io'
 
 export const AccordionItem = ({ open, toggle, title, items }) => {
 
   return (
     <div className=''>
-        <div className='bg-black text-white py-[25px] px-[50px] flex justify-between items-center cursor-pointer border-solid border-t-2 border-b-2 border-white'
+        <div className=' text-white py-[25px] px-[50px] flex justify-between items-center cursor-pointer border-solid border-t-2 border-b-2 border-white'
         onClick={toggle}>
             <p className='text-[32px] font-semibold'>
                 {title}
             </p>
-            <div className='text-[30px] text-white'>X</div>
+            <div>
+                <IoIosArrowDown size={30} className={open ? "rotate-180 transition-transform" : "rotate-0 transition-transform"}></IoIosArrowDown>
+            </div>
         </div>
 
         <Collapse isOpened={open}>
-            <div className='bg-black  text-white px-[50px] py-10 text-xl'>
+            <div className=' text-white px-[50px] py-10 text-xl'>
                 {items.map((i, k) => {
                     return <p className='hover:underline' key={k}>{i}</p>
                 })}
