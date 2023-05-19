@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { request } from "../../../lib/datocms"
 import { Image } from "react-datocms/image"
@@ -46,7 +48,7 @@ export default function ProductPage(props) {
     const [ showImage, setShowImage ] = useState(0)
 
     return (
-      <div className="container flex flex-col m-auto w-5/6">
+      <div className="container flex flex-col w-5/6 m-auto">
         <div className="all-images-container">
           <div className="image-container">
             {<Image data={images && images[showImage]}></Image>}
@@ -65,8 +67,8 @@ export default function ProductPage(props) {
               })}
           </div>
           <div className="flex flex-col lg:w-5/6">
-            <h1 className="text-6xl font-bold mt-8">{productData.name}</h1>
-            <h2 className="text-4xl my-8">{productData.price + "kr"}</h2>
+            <h1 className="mt-8 text-6xl font-bold">{productData.name}</h1>
+            <h2 className="my-8 text-4xl">{productData.price + "kr"}</h2>
             <StructuredText data={description.content}></StructuredText>
             {description.value.document.children.map((element, key) => {
               if (element.type === 'paragraph') {
@@ -74,7 +76,7 @@ export default function ProductPage(props) {
               }
               else if (element.type === 'list') {
                 return (
-                <ul key={key} className="list-disc list-inside my-5">
+                <ul key={key} className="my-5 list-disc list-inside">
                 {element.children.map((e) => (
                   <li><span>{e.children[0].children[0].value}</span></li>
                 ))}
@@ -82,16 +84,16 @@ export default function ProductPage(props) {
                 )
               }
             })}
-            <div className="flex flex-row align-middle mt-10 gap-6 ">
+            <div className="flex flex-row gap-6 mt-10 align-middle ">
               <Counter></Counter>
-              <button className="bg-orange-400 px-6 py-4 rounded-lg text-lg w-72 text-gray-950 font-semibold hover:bg-orange-300" onClick={() => handleAddToCart(productData)}>Add to cart</button>
+              <button className="px-6 py-4 text-lg font-semibold bg-orange-400 rounded-lg w-72 text-gray-950 hover:bg-orange-300" onClick={() => handleAddToCart(productData)}>Add to cart</button>
             </div>
           </div>
         </div>
 
 
-        <div className="flex flex-col m-auto mt-20 w-5/6 xl:w-full">
-          <h2 className="text-center mb-5 text-2xl">Description</h2>
+        <div className="flex flex-col w-5/6 m-auto mt-20 xl:w-full">
+          <h2 className="mb-5 text-2xl text-center">Description</h2>
           <hr></hr>
           <div className="mt-20">
           {description.value.document.children.map((element, key) => {
@@ -100,7 +102,7 @@ export default function ProductPage(props) {
               }
               else if (element.type === 'list') {
                 return (
-                <ul key={key} className="list-disc list-inside my-5">
+                <ul key={key} className="my-5 list-disc list-inside">
                 {element.children.map((e) => (
                   <li><span>{e.children[0].children[0].value}</span></li>
                 ))}
