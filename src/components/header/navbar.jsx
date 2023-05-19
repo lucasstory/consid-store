@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
+import { AiOutlineShoppingCart, AiOutlineInfoCircle, AiOutlineInbox } from 'react-icons/ai'
+import { BiSupport } from 'react-icons/bi'
+import Image from 'next/image'
 
-export const Navbar = () => {
+export const Navbar = (props) => {
+    const { data } = props
     const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="flex items-center justify-between flex-wrap">
+    <nav className="flex items-center justify-between flex-wrap w-5/6 m-auto lg:w-full">
         {/* logo */}
-        <Link href={`/`} className='hover:text-green-500'>
-        <div className="flex items-center flex-shrink-0 text-white mr-6">
-            <svg className="fill-current h-8 w-8 mr-2" width="54" height="54" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z"/></svg>
-            <span className="font-semibold text-xl tracking-tight">Tailwind CSS</span>
-        </div>
+        <Link href={`/`} className='mr-20'>
+            <Image src='/lucas-logo.png' width={150} height={100}></Image>
         </Link>
         {/* Burger */}
         <div className="block lg:hidden">
@@ -35,15 +36,56 @@ export const Navbar = () => {
         </div>
         {/* Links */}
         <div
-        className={`w-full ml-5 block flex-grow lg:flex lg:items-center lg:w-auto ${isOpen ? "block" : "hidden"}`}
+        className={`w-full block lg:gap-10 lg:flex-grow lg:flex lg:items-center lg:w-auto ${isOpen ? "block" : "hidden"}`}
         >
-            <div className="text-sm lg:flex-grow gap-10 flex">
-                <Link href={`/products`} className="block mt-6 lg:inline-block lg:mt-0 text-white-200 text-lg hover:text-green-400" onClick={() => setIsOpen(!isOpen)}>All products</Link>
-                <Link href={`/about-us`} className="block mt-6 lg:inline-block lg:mt-0 text-white-200 text-lg hover:text-green-400" onClick={() => setIsOpen(!isOpen)}>About us</Link>
-                <Link href={`/contact`} className="block mt-6 lg:inline-block lg:mt-0 text-white-200 text-lg hover:text-green-400" onClick={() => setIsOpen(!isOpen)}>Contact us</Link>
-            </div>
-            <button className='mt-6 md:mt-0'>CART</button>
+            <Link href={`/products`} className="flex flex-row items-center gap-2 mt-6 text-white-200 text-lg text-center lg:flex-col lg:gap-1 lg:mt-0 hover:text-orange-400" onClick={() => setIsOpen(!isOpen)}>
+                <AiOutlineInbox size={25}></AiOutlineInbox>
+                All products
+            </Link>
+            <Link href={`/about-us`} className="flex flex-row items-center gap-2 mt-6 text-white-200 text-lg text-center lg:flex-col lg:gap-1 lg:mt-0 hover:text-orange-400" onClick={() => setIsOpen(!isOpen)}>
+                <AiOutlineInfoCircle size={25}></AiOutlineInfoCircle>
+                About us
+            </Link>
+            <Link href={`/contact`} className="flex flex-row items-center gap-2 mt-6 text-white-200 text-lg text-center lg:flex-col lg:gap-1 lg:mt-0 hover:text-orange-400" onClick={() => setIsOpen(!isOpen)}>
+                <BiSupport size={25}></BiSupport>
+                Contact us
+            </Link>
+
         </div>
+        <Link href={`/cart`} className={`flex flex-row gap-2 mt-6 hover:text-orange-400 lg:mt-0 lg:block ${isOpen ? "block" : "hidden"}`}>
+            <AiOutlineShoppingCart size={30} className=''></AiOutlineShoppingCart>
+            Cart
+        </Link>
   </nav>
   )
 }
+
+const PAGES_QUERY = `
+query AllPages {
+  allPages {
+    slug
+  }
+}
+`
+export async function getStaticProps({ params }) {
+  const data = await request({
+      query: PAGES_QUERY
+  })
+
+  return {
+    props: { data }
+  }
+}
+
+export const getStaticPaths = async () => {
+    const slugQuery = await request({
+        query: PAGES_QUERY
+    })
+  
+    let paths = []
+    slugQuery.allPages.map((p) => paths.push(`/${p.id}`))
+    return {
+        paths,
+        fallback: false
+    }
+  }

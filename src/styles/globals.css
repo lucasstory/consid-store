@@ -29,3 +29,38 @@ body {
 .ReactCollapse--collapse {
   transition: height 200ms;
 }
+
+.all-images-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.small-images-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 20px;
+}
+.small-image {
+  max-width: 80px;
+  max-height: 80px;
+  cursor: pointer;
+}
+
+.selected-image {
+  max-width: 80px;
+  max-height: 80px;
+}
+
+@media (min-width: 800px) {
+  .small-image {
+    max-width: 200px;
+    max-height: 200px;
+    cursor: pointer;
+  }
+
+  .selected-image {
+    max-width: 200px;
+    max-height: 200px;
+  }
+}

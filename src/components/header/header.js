@@ -12,19 +12,3 @@ export const Header = (props) => {
   )
 }
 
-const PAGES_QUERY = `
-query AllPages {
-  allPages {
-    slug
-  }
-}
-`
-export async function getStaticProps({ params }) {
-  const data = await request({
-      query: PAGES_QUERY
-  })
-
-  return {
-    props: { data }
-  }
-}

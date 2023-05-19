@@ -16,8 +16,8 @@ export const AccordionItem = ({ open, toggle, title, items }) => {
 
         <Collapse isOpened={open}>
             <div className='bg-black  text-white px-[50px] py-10 text-xl'>
-                {items.map((i) => {
-                    return <p className='hover:underline'>{i}</p>
+                {items.map((i, k) => {
+                    return <p className='hover:underline' key={k}>{i}</p>
                 })}
             </div>
         </Collapse>

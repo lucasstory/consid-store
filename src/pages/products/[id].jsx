@@ -1,6 +1,13 @@
+"use client"
+
 import Link from "next/link"
 import { request } from "../../../lib/datocms"
 import { Image } from "react-datocms/image"
+import { Counter } from "@/features/counter/Counter"
+import { useDispatch } from "react-redux"
+import { addToCart } from "@/features/cart/cartSlice"
+import { StructuredText } from "react-datocms/structured-text"
+import { useState } from "react"
 
 const PATHS_QUERY = `
 query allProducts {
@@ -26,22 +33,50 @@ export const getStaticPaths = async () => {
 export default function ProductPage(props) {
     const { productData } = props
     const { description } = productData
+
+    let images  = []
+    images.push(productData.mainImage.responsiveImage)
+    productData.alternativeImages.map((img) => {
+      {images.push(img.responsiveImage)}
+    })
+
+    const dispatch = useDispatch()
+    const handleAddToCart = (productData) => {
+        dispatch(addToCart(productData))
+    }
+
+    const [ showImage, setShowImage ] = useState(0)
+
     return (
-      <div className="container flex flex-col m-auto">
-        <div className="flex flex-col w-5/6 m-auto xl:flex-row xl:gap-40 xl:w-full">
-          <div className="w-full xl:5/6">
-            <Image data={productData.mainImage.responsiveImage}></Image>
+      <div className="container flex flex-col w-5/6 m-auto">
+        <div className="all-images-container">
+          <div className="image-container">
+            {<Image data={images && images[showImage]}></Image>}
           </div>
-          <div className="flex flex-col lg:w-3/5">
-            <h1 className="text-6xl font-bold mt-8">{productData.name}</h1>
-            <h2 className="text-4xl my-8">{productData.price + "kr"}</h2>
+          <div className="small-images-container lg:w-[800px]">
+            {images?.map((item, i) => {
+              return (
+              <div 
+              key={i}  
+              onClick={() => {setShowImage(i)}} 
+              className={i === showImage ? 
+                'small-image selected-image' : 'small-image'} >
+                <Image data={item}></Image>
+              </div>
+              )
+              })}
+          </div>
+          <div className="flex flex-col lg:w-5/6">
+            <h1 className="mt-8 text-6xl font-bold">{productData.name}</h1>
+            <h2 className="my-8 text-4xl">{productData.price + "kr"}</h2>
+            <StructuredText data={description.content}></StructuredText>
             {description.value.document.children.map((element, key) => {
               if (element.type === 'paragraph') {
-                return <span key={key}>{element.children[0].value}</span>
+                return <span key={key} className="w-full">{element.children[0].value}</span>
               }
               else if (element.type === 'list') {
                 return (
-                <ul key={key} className="list-disc list-inside my-5">
+                <ul key={key} className="my-5 list-disc list-inside">
                 {element.children.map((e) => (
                   <li><span>{e.children[0].children[0].value}</span></li>
                 ))}
@@ -49,16 +84,16 @@ export default function ProductPage(props) {
                 )
               }
             })}
-            <div className="flex flex-row align-middle mt-10 gap-6">
-              <div className="bg-color-slate-40">Slider</div>
-              <button className="bg-gray-800 px-6 py-4 rounded-lg text-lg w-full hover:bg-slate-600">Add to cart</button>
+            <div className="flex flex-row gap-6 mt-10 align-middle ">
+              <Counter></Counter>
+              <button className="px-6 py-4 text-lg font-semibold bg-orange-400 rounded-lg w-72 text-gray-950 hover:bg-orange-300" onClick={() => handleAddToCart(productData)}>Add to cart</button>
             </div>
           </div>
         </div>
 
 
-        <div className="flex flex-col m-auto mt-20 w-5/6 xl:w-full">
-          <h2 className="text-center mb-5 text-2xl">Description</h2>
+        <div className="flex flex-col w-5/6 m-auto mt-20 xl:w-full">
+          <h2 className="mb-5 text-2xl text-center">Description</h2>
           <hr></hr>
           <div className="mt-20">
           {description.value.document.children.map((element, key) => {
@@ -67,7 +102,7 @@ export default function ProductPage(props) {
               }
               else if (element.type === 'list') {
                 return (
-                <ul key={key} className="list-disc list-inside my-5">
+                <ul key={key} className="my-5 list-disc list-inside">
                 {element.children.map((e) => (
                   <li><span>{e.children[0].children[0].value}</span></li>
                 ))}
