@@ -4,8 +4,11 @@ import Link from "next/link"
 import { request } from "../../lib/datocms"
 import { Image } from 'react-datocms'
 import { StructuredText } from "react-datocms"
-import { loadCart } from "@/features/cart/cartSlice"
-import { getSavedProducts } from "@/utils/localStorage"
+
+
+/*
+  This index.js is the home page.
+*/
 
 const HOMEPAGE_QUERY = `
 query AllPages {

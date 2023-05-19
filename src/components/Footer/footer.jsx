@@ -1,10 +1,11 @@
 import Link from 'next/link'
 import React, { useState } from 'react'
-import shipping from 'public/shipping.svg'
-import Image from 'next/image'
 import accordionItems from '../../../lib/accordionData'
 import { AccordionItem } from '../Accordion/accordionItem'
 
+/*
+    Footer visible on all pages.
+*/
 
 
 export const Footer = () => {
@@ -64,6 +65,11 @@ export const Footer = () => {
         </div>
         <hr className='mt-20 sm:my-20'></hr>
 
+        {
+            /*
+                Icons for highlighting some nice touches regarding benefits.
+            */
+        }
         <div className='hidden sm:flex sm:justify-between sm:w-full'>
             <div className='flex flex-col gap-5 text-lg'>
                 <h4 className='text-xl font-bold'>Store</h4>

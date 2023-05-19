@@ -2,12 +2,15 @@
 
 import Link from "next/link"
 import { request } from "../../../lib/datocms"
-import { useGetAllProductsQuery } from "@/features/product/productApi"
-import { useSelector } from "react-redux"
 import { Image } from "react-datocms/image"
 import { useDispatch } from "react-redux"
 import { addSingleItemToCart } from "@/features/cart/cartSlice"
 import { AiOutlineShoppingCart } from 'react-icons/ai/'
+
+
+/*
+    This index.js is the product-listing page. You can see all the products here.
+*/
 
 const PRODUCTS_QUERY = `
 query AllProducts {

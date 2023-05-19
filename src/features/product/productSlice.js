@@ -2,7 +2,11 @@
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { request } from "../../../lib/datocms";
+
+
+/*
+    productSlice.js sets the inital connection with DatoCM.
+*/
 
 const initialState = {
     items: [],

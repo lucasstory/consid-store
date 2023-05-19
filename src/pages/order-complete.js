@@ -4,6 +4,10 @@ import React from 'react'
 import Link from 'next/link'
 import { IoIosArrowDropleft } from 'react-icons/io'
 
+/*
+  Temporary order-complete page.
+*/
+
 const orderComplete = () => {
   return (
     <div className='container flex flex-col w-5/6 m-auto sm:w-full'>

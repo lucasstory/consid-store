@@ -10,6 +10,10 @@ import { useState } from "react"
 import { useSelector } from "react-redux"
 
 
+/*
+  [id].jsx is the product-page when loading the specific product.
+*/
+
 const PATHS_QUERY = `
 query allProducts {
   allProducts {

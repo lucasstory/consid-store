@@ -10,6 +10,11 @@ import { useEffect } from 'react'
 import { AiOutlineCheckCircle, AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai'
 import { RxCross1 } from 'react-icons/rx'
 
+
+/*
+    cart.js is the cart-page.
+*/
+
 const Cart = () => {
     const cart = useSelector((state) => state.cart)
 

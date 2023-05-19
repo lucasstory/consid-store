@@ -1,22 +1,19 @@
 import MainLayout from '@/layout/main-layout'
 import '@/styles/globals.css'
-
 import { Provider } from 'react-redux'
-
 import productReducer, { productsFetch } from '@/features/product/productSlice'
 import { productApi } from '@/features/product/productApi'
 import { configureStore } from '@reduxjs/toolkit'
 import cartReducer, { getTotal, loadCart } from '@/features/cart/cartSlice'
 import counterReducer from '../features/counter/counterSlice'
-
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
-import { useEffect } from 'react'
-import { getSavedProducts } from '@/utils/localStorage'
-import { useDispatch } from 'react-redux'
-import { debounce } from 'debounce'
-import { loadState, saveState } from '@/utils/localStorage'
 
+
+/*
+  The _app.js inckdues the setup for Redux to wrap between the different components 
+  running on the site. It also incudes toastify for nice messages.
+*/
 
 const store = configureStore({
   reducer: {

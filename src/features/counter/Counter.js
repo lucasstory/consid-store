@@ -5,6 +5,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import { decrement, increment } from './counterSlice'
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai'
 
+
+/*
+  Counter.js is the counter component included on the product-page.
+*/
+
 export function Counter() {
   const count = useSelector((state) => state.counter.value)
   const dispatch = useDispatch()

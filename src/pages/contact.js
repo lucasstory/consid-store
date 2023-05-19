@@ -5,7 +5,11 @@ import { request } from "../../lib/datocms"
 import { Image } from 'react-datocms/image'
 
 
-const aboutUs = (props) => {
+/*
+    contact.js is the contact us page from DatoCMS.
+*/
+
+const Contact = (props) => {
     const { aboutProps } = props
   return (
     <>
@@ -90,4 +94,4 @@ export async function getStaticProps() {
   
 
 
-export default aboutUs
+export default Contact

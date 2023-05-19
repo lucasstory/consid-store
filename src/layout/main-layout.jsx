@@ -3,11 +3,11 @@
 import React from 'react'
 import { Header } from '../components/header/header'
 import { Footer } from '../components/Footer/footer'
-import { useEffect } from 'react'
-import { getSavedProducts } from '@/utils/localStorage'
-import { useDispatch } from 'react-redux'
-import { loadCart } from '@/features/cart/cartSlice'
 
+
+/*
+  main-layout.jsx sets the overall layout for all pages on the website.
+*/
 
 const MainLayout = ( { children } ) => {
   return (

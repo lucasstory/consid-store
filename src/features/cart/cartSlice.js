@@ -3,7 +3,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { setCartItems } from "@/utils/localStorage";
-import { useSelector } from "react-redux";
+
+
+/*
+    cartSlice.js handles all the logic for the cart.
+*/
 
 const initialState = {
     cartItems: [],

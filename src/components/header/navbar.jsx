@@ -8,6 +8,11 @@ import { loadCart } from '@/features/cart/cartSlice'
 import { getSavedProducts } from '@/utils/localStorage'
 import Cart from '../Cart/Cart'
 
+
+/*
+    Responsive Navbar that works well on all units.
+*/
+
 export const Navbar = (props) => {
     const dispatch = useDispatch()
 

@@ -8,6 +8,10 @@ import { RxCross1 } from 'react-icons/rx'
 import { IoIosArrowDropright } from 'react-icons/io'
 import Link from "next/link"
 
+/*
+    Component cart that is viewed in the navbar. It can be hovered to showcase what is
+    currently in the cart, and be clicked on to enter the cart page.
+*/
 
 const cart = () => {
     const cart = useSelector((state) => state.cart)

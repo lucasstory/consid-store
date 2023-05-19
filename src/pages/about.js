@@ -5,6 +5,10 @@ import { request } from "../../lib/datocms"
 import { Image } from 'react-datocms/image'
 
 
+/*
+  about.js is the about us page from DatoCMS.
+*/
+
 const aboutUs = (props) => {
     const { aboutProps } = props
   return (
