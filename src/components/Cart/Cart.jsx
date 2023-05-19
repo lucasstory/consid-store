@@ -1,46 +1,60 @@
-import { useSelector } from "react-redux"
-import { useState } from "react"
+"use client"
+
+import { useDispatch, useSelector } from "react-redux"
 import { Image } from "react-datocms/image"
+import { clearCart, decreaseCartQuantity, increaseCartQuantity, getTotal, removeFromCart } from '@/features/cart/cartSlice'
+import { useEffect } from "react"
+import { RxCross1 } from 'react-icons/rx'
+import { IoIosArrowDropright } from 'react-icons/io'
+import Link from "next/link"
 
+/*
+    Component cart that is viewed in the navbar. It can be hovered to showcase what is
+    currently in the cart, and be clicked on to enter the cart page.
+*/
 
-
-
-const cart = (cartItems) => {
-    const [ showCart, setShowCart ] = useState(false)
+const cart = () => {
     const cart = useSelector((state) => state.cart)
 
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getTotal())
+    }, [cart])
+
+    const handleRemoveFromCart = (cartItem) => {
+        dispatch(removeFromCart(cartItem))
+    }
+
     return (
-        <div className={`w-full bg-black/25 fixed right-0 top-0 z-10 text-black ${showCart ? "hidden" : "block"}`}>
-            <div className='h-screen w-[600px] bg-white float-right py-[40px] px-[10px] relative'>
-                <button className="text-black" type='button' onClick={ () => setShowCart(!showCart) }>
-                    Back to shopping
-                </button>
-        
-                <div className='mt-10'>
-                    {cart.cartItems.length === 0 ? (
-                        <div>
-                            <h1>Your cart is empty</h1>
+        <div className="flex flex-col items-center justify-center m-auto text-black bg-gray-200 ">
+            {cart.cartItems?.map(cartItem => (
+                <div className="grid grid-flow-row divide-y divide-blue-200 auto-rows-max">
+                    <div className="flex flex-row items-center gap-6">
+                        <div className="flex flex-row items-start justify-start w-36">
+                            <Image data={cartItem.mainImage.responsiveImage}></Image>
                         </div>
-                    ) : (
-                        <div>
-                            {cart.cartItems?.map(cartItem => (
-                                <div>
-                                    <div className="flex flex-row gap-6 justify-center">
-                                        <div className="w-60">
-                                            <Image data={cartItem.mainImage.responsiveImage}></Image>
-                                        </div>
-                                        <div className="flex-col">
-                                            <h3>{cartItem.name}</h3>
-                                            <h3>{cartItem.price}kr</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
+                        <div className="flex-col w-16">
+                            <h3>{cartItem.name}</h3>
+                            <p className="text-xl font-semibold">{cartItem.price}kr</p>
                         </div>
-                    ) }
+                        <div className="flex flex-col w-16">
+                            <h3>{`Quantity`}</h3>
+                            <p className="text-xl font-semibold">{`${cartItem.cartQuantity}`}</p>
+                        </div>
+                        <div className="p-2 mr-3 cursor-pointer hover:bg-gray-300" onClick={() => handleRemoveFromCart(cartItem)}>
+                            <RxCross1></RxCross1>
+                        </div>
+                    </div>
                 </div>
-            </div>
-      </div>
+
+            ))}
+            <Link href={`/cart`} className="flex justify-center gap-2 py-4 my-6 text-lg font-semibold bg-orange-400 w-72 felx-row hover:bg-orange-300">
+                Go to cart
+                <IoIosArrowDropright size={30}></IoIosArrowDropright>
+            </Link>
+
+        </div>
     )
 }
 

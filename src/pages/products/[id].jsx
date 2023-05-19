@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import { request } from "../../../lib/datocms"
 import { Image } from "react-datocms/image"
 import { Counter } from "@/features/counter/Counter"
@@ -8,6 +7,12 @@ import { useDispatch } from "react-redux"
 import { addToCart } from "@/features/cart/cartSlice"
 import { StructuredText } from "react-datocms/structured-text"
 import { useState } from "react"
+import { useSelector } from "react-redux"
+
+
+/*
+  [id].jsx is the product-page when loading the specific product.
+*/
 
 const PATHS_QUERY = `
 query allProducts {
@@ -40,9 +45,15 @@ export default function ProductPage(props) {
       {images.push(img.responsiveImage)}
     })
 
+    const count = useSelector((state) => state.counter.value)
+    
     const dispatch = useDispatch()
+    
     const handleAddToCart = (productData) => {
-        dispatch(addToCart(productData))
+      const fullData = []
+      fullData[0] = productData
+      fullData[1] = count
+      dispatch(addToCart(fullData))
     }
 
     const [ showImage, setShowImage ] = useState(0)
@@ -51,17 +62,18 @@ export default function ProductPage(props) {
       <div className="container flex flex-col w-5/6 m-auto">
         <div className="all-images-container">
           <div className="image-container">
-            {<Image data={images && images[showImage]}></Image>}
+            {<Image data={images && images[showImage]} alt={images[showImage].alt}></Image>}
+
           </div>
           <div className="small-images-container lg:w-[800px]">
             {images?.map((item, i) => {
               return (
               <div 
-              key={i}  
+              key={item.id}  
               onClick={() => {setShowImage(i)}} 
               className={i === showImage ? 
                 'small-image selected-image' : 'small-image'} >
-                <Image data={item}></Image>
+                <Image data={item} alt={item.alt}></Image>
               </div>
               )
               })}

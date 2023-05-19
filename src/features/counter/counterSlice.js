@@ -1,7 +1,14 @@
+"use client"
+
 import { createSlice } from '@reduxjs/toolkit'
 
+
+/*
+  counterSLice handles the logic for the counter on the product-page.
+*/
+
 const initialState = {
-  value: 0
+  value: 1
 }
 
 export const counterSlice = createSlice({

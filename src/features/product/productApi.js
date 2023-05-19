@@ -1,5 +1,11 @@
+"use client"
+
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { request } from '../../../lib/datocms'
+
+
+/*
+  productApi imports all the products from dataCMS to initialize them to the Redux store.
+*/
 
 const getProductsQuery = `query AllProducts {
                 allProducts {
